@@ -81,11 +81,16 @@ WSGI_APPLICATION = 'djangocrud.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+db_from_env = dj_database_url.config(conn_max_age=600)
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL', 'postgresql://postgres:76801048@localhost:5432/DjangoCrud'),
-        conn_max_age=600
-    )
+    'default': db_from_env or {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'DjangoCrud',
+        'USER': 'postgres',
+        'PASSWORD': '76801048',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 
 
